@@ -6,12 +6,11 @@ import { isNumber } from "../utils/regex";
  * @returns First number of the line
  */
 const getFirstNumber = (line: string): number => {
-    const numbers = line
+    const firstNumberChar = line
         .split("")
-        .filter((char: string) => isNumber.test(char))
-        .map((char: string) => parseInt(char));
+        .find((char: string) => isNumber.test(char))
 
-    return numbers.length > 0 ? numbers[0] : 0;
+    return firstNumberChar ? parseInt(firstNumberChar) : 0;
 };
 
 export default getFirstNumber;
