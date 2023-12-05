@@ -1,31 +1,54 @@
-import { isNumber } from "../utils/regex";
+import getFirstNumber from "./utils";
 
+// Valid digits
 const validDigits: { [key: string]: string } = {
-    "one": "o1e",
-    "two": "t2o",
-    "three": "t3e",
-    "four": "f4r",
-    "five": "f5e",
-    "six": "s6x",
-    "seven": "s7n",
-    "eight": "e8t",
-    "nine": "n9e",
+    "one": "1",
+    "two": "2",
+    "three": "3",
+    "four": "4",
+    "five": "5",
+    "six": "6",
+    "seven": "7",
+    "eight": "8",
+    "nine": "9",
 };
 
+// Valid reversed digits
+const validReversedDigits: { [key: string]: string } = {
+    "eno": "1",
+    "owt": "2",
+    "eerht": "3",
+    "ruof": "4",
+    "evif": "5",
+    "xis": "6",
+    "neves": "7",
+    "thgie": "8",
+    "enin": "9",
+};
+
+/**
+ * Method to get the sum of the first and last number of each line
+ * Each number can be written in litteral or in digit
+ * @param file File to parse
+ * @returns Sum of the first and last number of each line
+ */
 const part2 = (file: string[]): number => file.reduce(
     (acc: number, line: string) => {
-        const stringWithNumbers1 = line.replace(/one|two|three|four|five|six|seven|eight|nine/gi, (match: string) => String(validDigits[match]));
-        const stringWithNumbers2 = stringWithNumbers1.replace(/one|two|three|four|five|six|seven|eight|nine/gi, (match: string) => String(validDigits[match]));
+        // Check if current line contains litteral numbers, and replace them by their digit equivalent
+        const currentLine = line.replace(/one|two|three|four|five|six|seven|eight|nine/gi, (match: string) => String(validDigits[match]));
+        // Check if current line contains reversed litteral numbers, and replace them by their digit equivalent
+        const currentReversedLine = line
+            .split("")
+            .reverse()
+            .join("")
+            .replace(/eno|owt|eerht|ruof|evif|xis|neves|thgie|enin/gi, (match: string) => String(validReversedDigits[match]));
 
-        const getNumbers = stringWithNumbers2.split("").map(
-            (char: string) => isNumber.test(char) ? char : null
-        ).filter(Boolean);
-            
-        const currentNumber = getNumbers && getNumbers.length === 1 
-            ? getNumbers[0]?.repeat(2)
-            : `${getNumbers[0]}${getNumbers[getNumbers.length - 1]}`;
+        // Get first number of the current line
+        const getFirstNumberLine = getFirstNumber(currentLine);
+        // Get last number of the current line
+        const getLastNumberLine = getFirstNumber(currentReversedLine);
 
-        return acc + (currentNumber ? Number(currentNumber) : 0);
+        return acc + parseInt(`${getFirstNumberLine}${getLastNumberLine}`);
     }
 , 0);
 

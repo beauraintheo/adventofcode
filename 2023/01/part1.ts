@@ -1,16 +1,16 @@
-import { isNumber } from "../utils/regex";
+import getFirstNumber from "./utils";
 
+/**
+ * Method to get the sum of the first and last number of each line
+ * @param file File to parse
+ * @returns Sum of the first and last number of each line
+ */
 const part1 = (file: string[]): number => file.reduce(
     (acc: number, line: string) => {
-        const getNumbers = line.split("").map(
-            (char: string) => isNumber.test(char) ? char : null
-        ).filter(Boolean);
-            
-        const currentNumber = getNumbers && getNumbers.length === 1 
-            ? getNumbers[0]?.repeat(2)
-            : `${getNumbers[0]}${getNumbers[getNumbers.length - 1]}`;
+        const getFirstNumberLine = getFirstNumber(line);
+        const getLastNumberLine = getFirstNumber(line.split("").reverse().join(""));
 
-        return acc + (currentNumber ? Number(currentNumber) : 0);
+        return acc + parseInt(`${getFirstNumberLine}${getLastNumberLine}`);
     }
 , 0);
 
