@@ -1,5 +1,5 @@
 import { removeTextFromString } from "../utils/utils";
-import { checkIfDrawIsValid, getCubesFromDraw, validateGame } from "./utils";
+import { validateGame } from "./utils";
 
 const part1 = (file: string[]): number => {
     // Remove "Game X: " from each line
@@ -7,7 +7,11 @@ const part1 = (file: string[]): number => {
 
     // Check if each draw is valid, and return the sum of the index of the valid draws
     return formattedGames.reduce(
-        (acc: number, game: string, index: number) => validateGame(game) ? acc + (index + 1) : acc, 0
+        (acc: number, game: string, index: number) => 
+            validateGame(game) 
+                ? acc + (index + 1) 
+                : acc
+            , 0
     );
 };
 

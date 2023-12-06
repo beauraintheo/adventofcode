@@ -7,7 +7,9 @@ import getFirstNumber from "./utils";
  */
 const part1 = (file: string[]): number => file.reduce(
     (acc: number, line: string) => {
+        // Get first number of the current line
         const getFirstNumberLine = getFirstNumber(line);
+        // Get last number of the current line
         const getLastNumberLine = getFirstNumber(line.split("").reverse().join(""));
 
         return acc + parseInt(`${getFirstNumberLine}${getLastNumberLine}`);

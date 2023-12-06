@@ -33,3 +33,21 @@ export const validateGame = (game: string): boolean => game.split(";").every(
         return checkIfDrawIsValid(cubesByColors);
     }
 );
+
+/**
+ * Get the maximum number of cubes of each color from a game
+ * @param game The game to parse
+ * @returns An object with the maximum number of cubes of each color
+ */
+export const getMaxCubesPerGame = (game: string): { [key: string]: number } => game.split(";").reduce(
+    (acc: { [key: string]: number }, draw: string, index: number) => {
+        const cubesByColors = getCubesFromDraw(draw);
+
+        return Object.entries(cubesByColors).reduce(
+            (maxCubes, [color, cubes]) => ({
+                ...maxCubes,
+                [color]: Math.max(maxCubes[color], cubes)
+            }), acc
+        );
+    }, { red: 0, blue: 0, green: 0 }
+);
