@@ -23,3 +23,6 @@ export const validReversedDigits: { [key: string]: string } = {
     "thgie": "8",
     "enin": "9",
 };
+
+// RegExp to check if a string is a number
+export const isNumber = /^\d+$/;

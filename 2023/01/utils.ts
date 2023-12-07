@@ -1,4 +1,4 @@
-import { isNumber } from "../utils/regex";
+import { isNumber } from "./constants";
 
 /**
  * Method to get the first number of a string

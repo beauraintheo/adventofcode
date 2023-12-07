@@ -1,13 +1,14 @@
-import { removeTextFromString } from "../utils/utils";
+import { startByGame } from "./constants";
 import { getMaxCubesPerGame } from "./utils";
+import { removeTextFromString } from "../utils/utils";
 
 const part1 = (file: string[]): number => {
     // Remove "Game X: " from each line
-    const formattedGames = file.map((line: string) => removeTextFromString(line, /^Game \d+: /));
+    const formattedGames = file.map((line: string) => removeTextFromString(line, startByGame));
 
     // Get the power of the cubes after each game, and sum them
     return formattedGames.reduce(
-        (acc: number, game: string, index: number) => {
+        (acc: number, game: string) => {
             // Get the maximum number of cubes of each color from the game
             const maxCubesPerGame = getMaxCubesPerGame(game);
             // Get the power of the cubes

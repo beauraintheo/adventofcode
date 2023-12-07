@@ -4,3 +4,6 @@ export const maxCubes: { [key: string]: number } = {
     green: 13,
     blue: 14,
 };
+
+// RegExp to check if a string is a number
+export const startByGame = /^Game \d+: /;

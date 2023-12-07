@@ -4,7 +4,8 @@
 	"main": "index.js",
 	"scripts": {
 		"01": "tsc && node ./dist/01/index.js ./01/input.txt",
-		"02": "tsc && node ./dist/02/index.js ./02/input.txt"
+		"02": "tsc && node ./dist/02/index.js ./02/input.txt",
+		"03": "tsc && node ./dist/03/index.js ./03/input.txt"
 	},
 	"keywords": [],
 	"author": "",
