@@ -1,3 +1,4 @@
+import { dir } from "console";
 import { isSymbol } from "./constants";
 
 // Check if a char is a number
@@ -34,35 +35,127 @@ export const getValue = (x: number, y: number, file: string[]) => x >= 0
         : null;
 
 /**
- * Check the previous value of a position
+ * Check the adjacent value of an symbol
  * If the previous value is a number, check recursively the previous value until it's not a number
  * @param x The x position
  * @param y The y position
  * @param file The file
- * @returns The previous value
+ * @param direction The direction to check (1 = right, -1 = left)
+ * @returns The adjacent value
  */
-export const checkPreviousValue = (x: number, y: number, file: string[]): string => {
-    const previousValue = getValue(x, y - 1, file);
+export const checkAdjacentValue = (x: number, y: number, file: string[], direction: number): string => {
+    const adjacentValue = getValue(x, y + direction, file);
 
-    return previousValue && previousValue.match(/\d/) 
-        ? `${checkPreviousValue(x, y - 1, file)}${previousValue}`
+    if (direction === 1) return adjacentValue && adjacentValue.match(/\d/)
+        ? `${adjacentValue}${checkAdjacentValue(x, y + direction, file, direction)}`
         : "";
+    
+    if (direction === -1) return adjacentValue && adjacentValue.match(/\d/)
+        ? `${checkAdjacentValue(x, y + direction, file, direction)}${adjacentValue}`
+        : "";
+
+    return "";
 }
 
 /**
- * Check the next value of a position
- * If the next value is a number, check recursively the next value until it's not a number
+ * Check the left corners of a symbol
+ * @param position1 The position of the symbol
+ * @param position2 The position of the symbol
  * @param x The x position
  * @param y The y position
  * @param file The file
- * @returns The next value
+ * @param direction The direction to check (1 = right, -1 = left)
+ * @returns The value of the left corner and all numbers before it
  */
-export const checkNextValue = (x: number, y: number, file: string[]): string => {
-    const nextValue = getValue(x, y + 1, file);
+export const checkLeftCorners = (
+    position1: string | null,
+    position2: string | null,
+    x: number,
+    y: number,
+    file: string[],
+    direction: number
+): number => isNumber(position1) && !isNumber(position2)
+    ? parseInt(checkAdjacentValue(x, y, file, direction))
+    : 0;
 
-    return nextValue && nextValue.match(/\d/) 
-        ? `${nextValue}${checkNextValue(x, y + 1, file)}`
-        : "";
+/**
+ * Check right corners of a symbol 
+ * @param positionLeft The left position of the symbol
+ * @param positionMiddle The top position of the symbol
+ * @param positionRight The right position of the symbol
+ * @param x The x position
+ * @param y The y position
+ * @param file The file
+ * @returns The value of the right corner and all numbers after / before it
+ */
+export const checkRightCorners = (
+    positionLeft: string | null,
+    positionMiddle: string | null,
+    positionRight: string | null,
+    x: number,
+    y: number,
+    file: string[]
+): number => {
+    if (isNumber(positionRight)) {
+        const nextValue = checkAdjacentValue(x, y, file, 1);
+
+        if (isNumber(positionMiddle)) {
+            if (isNumber(positionLeft)) {
+                const previousValue = checkAdjacentValue(x, y, file, -1);
+                return parseInt(`${previousValue}${positionMiddle}${nextValue}`);
+            } else return parseInt(`${positionMiddle}${nextValue}`);
+        } else return parseInt(`${nextValue}`);
+    }
+    return 0;
+}
+
+/**
+ * Check the horizontal adjacent values of a symbol
+ * @param position The position of the symbol
+ * @param x The x position
+ * @param y The y position
+ * @param file The file
+ * @param direction The direction to check (1 = right, -1 = left)
+ * @returns The value of the horizontal adjacent values
+ */
+export const checkHorizontalAdjacentValues = (
+    position: string | null,
+    x: number,
+    y: number,
+    file: string[],
+    direction: number
+): number => isNumber(position)
+    ? parseInt(checkAdjacentValue(x, y, file, direction)) 
+    : 0;
+
+/**
+ * Check vertical values of a symbol
+ * @param positionLeft The position of the symbol
+ * @param positionMiddle The position of the symbol
+ * @param positionRight The position of the symbol
+ * @param x The x position
+ * @param y The y position
+ * @param file The file
+ * @param direction The direction to check (1 = right, -1 = left)
+ * @returns The value of the vertical values, and all numbers before it
+ */
+export const checkVerticalValues = (
+    positionLeft: string | null,
+    positionMiddle: string | null,
+    positionRight: string | null,
+    x: number,
+    y: number,
+    file: string[],
+    direction: number
+): number => {
+    if (isNumber(positionMiddle) && !isNumber(positionRight)) {
+        const previousValue = isNumber(positionLeft) 
+            ? checkAdjacentValue(x, y, file, direction)
+            : "";
+
+        return parseInt(`${previousValue}${positionMiddle}`);
+    }
+    return 0;
 }
 
 /**
@@ -85,72 +178,15 @@ export const sumNumbersNextToSymbols = (x: number, y: number, file: string[]): n
         bottomRight: getValue(x + 1, y + 1, file),
     }
 
-    const result = [];
-
-    if (isNumber(positionsToCheck.topLeft) && !isNumber(positionsToCheck.top)) {
-        const previousValue = checkPreviousValue(x - 1, y, file);
-        result.push(parseInt(`${previousValue}`));
-    }
-
-
-    if (isNumber(positionsToCheck.top) && !isNumber(positionsToCheck.topRight)) {
-        const previousValue = isNumber(positionsToCheck.topLeft) 
-            ? checkPreviousValue(x - 1, y, file)
-            : "";
-        result.push(parseInt(`${previousValue}${positionsToCheck.top}`));
-    }
-
-    if (isNumber(positionsToCheck.topRight)) {
-        const nextValue = checkNextValue(x - 1, y, file);
-
-        if (isNumber(positionsToCheck.top)) {
-            if (isNumber(positionsToCheck.topLeft)) {
-                const previousValue = checkPreviousValue(x - 1, y, file);
-                result.push(parseInt(`${previousValue}${positionsToCheck.top}${nextValue}`));
-            } else {
-                result.push(parseInt(`${positionsToCheck.top}${nextValue}`));
-            }
-        } else {
-            result.push(parseInt(`${nextValue}`));
-        }
-    }
-
-    if (isNumber(positionsToCheck.bottomLeft) && !isNumber(positionsToCheck.bottom)) {
-        const previousValue = checkPreviousValue(x + 1, y, file);
-        result.push(parseInt(`${previousValue}`));
-    }
-
-    if (isNumber(positionsToCheck.bottom) && !isNumber(positionsToCheck.bottomRight)) {
-        const previousValue = isNumber(positionsToCheck.bottomLeft) 
-            ? checkPreviousValue(x + 1, y, file)
-            : "";
-        result.push(parseInt(`${previousValue}${positionsToCheck.bottom}`));
-    }
-
-    if (isNumber(positionsToCheck.bottomRight)) {
-        const nextValue = checkNextValue(x + 1, y, file);
-
-        if (isNumber(positionsToCheck.bottom)) {
-            if (isNumber(positionsToCheck.bottomLeft)) {
-                const previousValue = checkPreviousValue(x + 1, y, file);
-                result.push(parseInt(`${previousValue}${positionsToCheck.bottom}${nextValue}`));
-            } else {
-                result.push(parseInt(`${positionsToCheck.bottom}${nextValue}`));
-            }
-        } else {
-            result.push(parseInt(`${nextValue}`));
-        }
-    }
-
-    if (isNumber(positionsToCheck.left)) {
-        const previousValue = checkPreviousValue(x, y, file);
-        result.push(parseInt(`${previousValue}`));
-    }
-
-    if (isNumber(positionsToCheck.right)) {
-        const nextValue = checkNextValue(x, y, file);
-        result.push(parseInt(`${nextValue}`));
-    }
-
-    return result.reduce((sum: number, value: number) => sum + value, 0);
+    // We check each case to get the value of the numbers around the symbol, and sum them
+    return [
+        checkLeftCorners(positionsToCheck.topLeft, positionsToCheck.top, x - 1, y, file, -1),
+        checkVerticalValues(positionsToCheck.topLeft, positionsToCheck.top, positionsToCheck.topRight, x - 1, y, file, -1),
+        checkRightCorners(positionsToCheck.topLeft, positionsToCheck.top, positionsToCheck.topRight, x - 1, y, file),
+        checkLeftCorners(positionsToCheck.bottomLeft, positionsToCheck.bottom, x + 1, y, file, -1),
+        checkVerticalValues(positionsToCheck.bottomLeft, positionsToCheck.bottom, positionsToCheck.bottomRight, x + 1, y, file, -1),
+        checkRightCorners(positionsToCheck.bottomLeft, positionsToCheck.bottom, positionsToCheck.bottomRight, x + 1, y, file),
+        checkHorizontalAdjacentValues(positionsToCheck.left, x, y, file, -1),
+        checkHorizontalAdjacentValues(positionsToCheck.right, x, y, file, 1),
+    ].filter(Boolean).reduce((sum: number, value: number) => sum + value, 0);
 };
