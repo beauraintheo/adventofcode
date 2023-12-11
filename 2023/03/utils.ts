@@ -10,11 +10,11 @@ export const isNumber = (char: string | null): boolean => !isNaN(Number(char));
  * @param index The index of the line
  * @returns An array of objects with the position of the special chars
  */
-export const findSpecialChars = (line: string, index: number): Array<{ [key: string]: number }> => line.split("").reduce(
-    (acc: Array<{ x: number, y: number }>, char: string, i: number) => isSymbol.test(char)
+export const findSpecialChars = (line: string, index: number): Array<{ symbol: string, x: number, y: number }> => line.split("").reduce(
+    (acc: Array<{ symbol: string, x: number, y: number }>, char: string, i: number) => isSymbol.test(char)
         ? [
             ...acc,
-            { x: index, y: i }
+            { symbol: char, x: index, y: i }
         ]
         : acc
     ,[]
@@ -159,14 +159,13 @@ export const checkVerticalValues = (
 }
 
 /**
- * Sum the numbers around a symbol
+ * Get all the values around a symbol
  * @param x The x position of the symbol
  * @param y The y position of the symbol
  * @param file The file
- * @returns The sum of the numbers around the symbol
+ * @returns An array of numbers around the symbol
  */
-export const sumNumbersNextToSymbols = (x: number, y: number, file: string[]): number=> {
-    // Get the value of each char around the symbol
+export const getAllValuesAroundSymbol = (x: number, y: number, file: string[]): number[] => {
     const positionsToCheck = {
         topLeft: getValue(x - 1, y - 1, file),
         top: getValue(x - 1, y, file),
@@ -188,5 +187,33 @@ export const sumNumbersNextToSymbols = (x: number, y: number, file: string[]): n
         checkRightCorners(positionsToCheck.bottomLeft, positionsToCheck.bottom, positionsToCheck.bottomRight, x + 1, y, file),
         checkHorizontalAdjacentValues(positionsToCheck.left, x, y, file, -1),
         checkHorizontalAdjacentValues(positionsToCheck.right, x, y, file, 1),
-    ].filter(Boolean).reduce((sum: number, value: number) => sum + value, 0);
+    ].filter(Boolean);
 };
+
+/**
+ * Sum the numbers around a symbol
+ * @param x The x position of the symbol
+ * @param y The y position of the symbol
+ * @param file The file
+ * @returns The sum of the numbers around the symbol
+ */
+export const sumNumbersNextToSymbols = (x: number, y: number, file: string[]): number=> {
+    const result = getAllValuesAroundSymbol(x, y, file);
+
+    return result.reduce((sum: number, value: number) => sum + value, 0);
+};
+
+/**
+ * Multiply the 2 numbers around "*" symbol. If there are more than 2 numbers, return 0
+ * @param x The x position of the symbol
+ * @param y The y position of the symbol
+ * @param file The file
+ * @returns The multiply result of the numbers around the symbol
+ */
+export const multiplyNumbersNextToSymbols = (x: number, y: number, file: string[]): number => {
+    const result = getAllValuesAroundSymbol(x, y, file);
+    
+    return result.length === 2 
+        ? result.reduce((acc: number, value: number) => acc * value, 1)
+        : 0;
+}
