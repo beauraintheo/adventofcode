@@ -1,6 +1,7 @@
 import { findSpecialChars, multiplyNumbersNextToSymbols } from "./utils";
 
 const part2 = (file: string[]): number => {
+    // Find all special chars in the file
     const symbolsPosition = file.reduce(
         (
             acc: Array<{ symbol: string, x: number, y: number }>,
@@ -9,6 +10,7 @@ const part2 = (file: string[]): number => {
         ) => [ ...acc, ...findSpecialChars(line, index) ], []
     );
     
+    // Multiply all numbers next to special char "*"
     return symbolsPosition.reduce(
         (acc: number, symbol: { symbol: string, x: number, y: number }) => 
             symbol.symbol === "*"
