@@ -6,11 +6,11 @@ import { isNumber } from "./constants";
  * @returns First number of the line
  */
 const getFirstNumber = (line: string): number => {
-    const firstNumberChar = line
-        .split("")
-        .find((char: string) => isNumber.test(char))
+	const firstNumberChar = line
+	.split("")
+	.find((char: string) => isNumber.test(char));
 
-    return firstNumberChar ? parseInt(firstNumberChar) : 0;
+	return firstNumberChar ? parseInt(firstNumberChar) : 0;
 };
 
 export default getFirstNumber;

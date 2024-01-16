@@ -1,12 +1,9 @@
 {
-	"name": "adventofcode2023",
+	"name": "adventofcode2015",
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"01": "tsc && node ./dist/01/index.js ./01/input.txt",
-		"02": "tsc && node ./dist/02/index.js ./02/input.txt",
-		"03": "tsc && node ./dist/03/index.js ./03/input.txt",
-		"04": "tsc && node ./dist/04/index.js ./04/input.txt"
+		"01": "tsc && node ./dist/01/index.js ./01/input.txt"
 	},
 	"keywords": [],
 	"author": "",

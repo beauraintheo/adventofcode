@@ -6,11 +6,11 @@ import { maxCubes } from "./constants";
  * @returns An object with the number of cubes of each color
  */
 export const getCubesFromDraw = (draw: string): { [key: string]: number } => draw.split(",").reduce(
-    (acc: { [key: string]: number }, value: string): { [key: string]: number } => {
-        const [ cubes, color ] = value.trim().split(" ");
-        
-        return { ...acc, [color]: parseInt(cubes)};
-    }, {}
+	(acc: { [key: string]: number }, value: string): { [key: string]: number } => {
+		const [ cubes, color ] = value.trim().split(" ");
+
+		return { ...acc, [color]: parseInt(cubes)};
+	}, {}
 );
 
 /**
@@ -19,7 +19,7 @@ export const getCubesFromDraw = (draw: string): { [key: string]: number } => dra
  * @returns true if the draw is valid, false otherwise
  */
 export const checkIfDrawIsValid = (draw: { [key: string]: number }): boolean => Object.entries(draw).every(
-    ([ color, value ]: [string, number]) => maxCubes[color] < value ? false : true
+	([ color, value ]: [string, number]) => maxCubes[color] < value ? false : true
 );
 
 /**
@@ -28,10 +28,10 @@ export const checkIfDrawIsValid = (draw: { [key: string]: number }): boolean => 
  * @returns true if the game is valid, false otherwise
  */
 export const validateGame = (game: string): boolean => game.split(";").every(
-    (draw: string) => {
-        const cubesByColors = getCubesFromDraw(draw);
-        return checkIfDrawIsValid(cubesByColors);
-    }
+	(draw: string) => {
+		const cubesByColors = getCubesFromDraw(draw);
+		return checkIfDrawIsValid(cubesByColors);
+	}
 );
 
 /**
@@ -40,14 +40,14 @@ export const validateGame = (game: string): boolean => game.split(";").every(
  * @returns An object with the maximum number of cubes of each color
  */
 export const getMaxCubesPerGame = (game: string): { [key: string]: number } => game.split(";").reduce(
-    (acc: { [key: string]: number }, draw: string, index: number) => {
-        const cubesByColors = getCubesFromDraw(draw);
+	(acc: { [key: string]: number }, draw: string) => {
+		const cubesByColors = getCubesFromDraw(draw);
 
-        return Object.entries(cubesByColors).reduce(
-            (maxCubes, [color, cubes]) => ({
-                ...maxCubes,
-                [color]: Math.max(maxCubes[color], cubes)
-            }), acc
-        );
-    }, { red: 0, blue: 0, green: 0 }
+		return Object.entries(cubesByColors).reduce(
+			(maxCubes, [ color, cubes ]) => ({
+				...maxCubes,
+				[color]: Math.max(maxCubes[color], cubes)
+			}), acc
+		);
+	}, { red: 0, blue: 0, green: 0 }
 );

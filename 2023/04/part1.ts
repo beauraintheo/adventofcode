@@ -10,7 +10,7 @@ const part1 = (file: string[]): number => {
 
 	// Sum all winning numbers
 	// Each number is worth 1 point, and each other number multiply current score by 2
-	return parsedFile.reduce((acc, [ numbers, currentDraft ]) => sumWinningNumbers(numbers, currentDraft) + acc, 0);
+	return parsedFile.reduce((acc: number, [ numbers, currentDraft ]: string[][]): number => sumWinningNumbers(numbers, currentDraft) + acc, 0);
 };
 
 export default part1;

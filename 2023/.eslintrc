@@ -1,0 +1,45 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": [ "@typescript-eslint", "import" ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings"
+    ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [ ".js", ".jsx", ".ts", ".tsx" ]
+            }
+        }
+    },
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "quotes": [ "error", "double" ],
+		"indent": [ 2, "tab" , { "SwitchCase": 1, "MemberExpression": 0 } ],
+		"comma-dangle": [ "error", "never" ],
+		"function-paren-newline": [ "error", "consistent" ],
+		"array-bracket-spacing": [ "error", "always" ],
+		"semi": [ "error", "always" ],
+		"no-unused-vars": "error",
+		"no-undef": "error",
+		"no-trailing-spaces": "error",
+		"eqeqeq": "error",
+		"arrow-spacing": "error",
+		"prefer-const": "error",
+		"import/first": "error",
+		"arrow-body-style": [ "error", "as-needed" ],
+		"no-return-assign": [ 0 ],
+		"no-underscore-dangle": [ 0 ],
+		"no-confusing-arrow": [ 0 ],
+		"no-case-declarations": [ 0 ]
+    }
+}
