@@ -1,4 +1,3 @@
-
 /**
  * Method to calculate the smallest area of a perfect rectangular prism
  * @param length Length of the prism
