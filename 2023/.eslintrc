@@ -37,6 +37,7 @@
 		"prefer-const": "error",
 		"import/first": "error",
 		"arrow-body-style": [ "error", "as-needed" ],
+        "no-constant-condition": [ "error", { "checkLoops": false } ],
 		"no-return-assign": [ 0 ],
 		"no-underscore-dangle": [ 0 ],
 		"no-confusing-arrow": [ 0 ],
