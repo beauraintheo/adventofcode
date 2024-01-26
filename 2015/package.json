@@ -6,7 +6,8 @@
 		"01": "tsc && clear && node ./dist/01/index.js ./01/input.txt",
 		"02": "tsc && clear && node ./dist/02/index.js ./02/input.txt",
 		"03": "tsc && clear && node ./dist/03/index.js ./03/input.txt",
-		"04": "tsc && clear && node ./dist/04/index.js ./04/input.txt"
+		"04": "tsc && clear && node ./dist/04/index.js ./04/input.txt",
+		"05": "tsc && clear && node ./dist/05/index.js ./05/input.txt"
 	},
 	"keywords": [],
 	"author": "",
