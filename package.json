@@ -11,7 +11,9 @@
   },
   "devDependencies": {
     "@kmblabs/config": "^1.0.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^22.10.1",
+    "crypto-js": "^4.2.0",
     "eslint": "^8.56.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
