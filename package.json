@@ -4,7 +4,8 @@
   "author": "Théo Beaurain",
   "license": "MIT",
   "workspaces": [
-    "2015"
+    "2015",
+    "2024"
   ],
   "scripts": {
     "start": "tsx run.ts"
