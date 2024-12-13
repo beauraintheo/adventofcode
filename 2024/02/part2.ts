@@ -1,9 +1,4 @@
-import {
-  checkWithOneLevelRemoved,
-  difference,
-  isAscending,
-  isDescending,
-} from "./utils";
+import { checkWithOneLevelRemoved } from "./utils";
 
 /**
  * Method to count the number of occurences of the first number of each line in the last number of each line
