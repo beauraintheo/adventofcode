@@ -1,8 +1,5 @@
-import { findIndexesChar } from "./commons";
-import {
-  checkDirection,
-  type directionType,
-} from "./functionsPart1";
+import { checkDirection, findIndexesChar } from "./utils";
+import type { directionType } from "./utils";
 
 const directions: directionType[] = [
   "up",
@@ -16,7 +13,9 @@ const directions: directionType[] = [
 ];
 
 /**
- *
+ * Count the numbers of occurences of "MAS" in the grid after an "X" character. It will check in all directions
+ * @param file Input file
+ * @returns Number of occurences of "MAS" in the grid after an "X" character
  */
 export const part1 = (
   file: string[],

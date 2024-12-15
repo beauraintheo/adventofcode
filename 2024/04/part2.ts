@@ -1,5 +1,4 @@
-import { findIndexesChar } from "./commons";
-import { checkXMas } from "./functionsPart2";
+import { checkXMas, findIndexesChar } from "./utils";
 
 /**
  * Count the number of occurences of "MAS" in a cross direction. Each "MAS" should appears as an X shape
