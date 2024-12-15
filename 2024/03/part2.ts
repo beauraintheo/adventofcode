@@ -1,3 +1,9 @@
+/**
+ * Method to parse all multiplications in an corrupted file and return the sum of the results
+ * If there's a "do()" operator, the multiplication is enabled. If there's a "don't()" operator, the multiplication is disabled
+ * @param file Line to parse
+ * @returns Sum of the results of all multiplications
+ */
 export const part2 = (
   file: string[],
 ): number => {
