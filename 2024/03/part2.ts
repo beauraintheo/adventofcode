@@ -7,7 +7,8 @@
 export const part2 = (
   file: string[],
 ): number => {
-// Get all multiplications in the file format like "mul(X,X)", where X is a number
+  // Get all multiplications in the file format like "mul(X,X)", where X is a number
+  // It will get all "do()" and "don't()" operators to enable or disable the multiplication
   const matches = file.map(line => [ ...line.matchAll(/(do\(\))|(don\'t\(\))|(mul\([0-9]+,[0-9]+\))/g) ]);
   const multiplications = matches
     .reduce((acc, curr) => [ ...acc, ...curr ], [])
